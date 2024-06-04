@@ -351,6 +351,11 @@ class WeReadExporter(object):
                 )
 
             markdown = await self._page.get_markdown()
+
+            # 有些书籍的文前页可能只包含图片，会导致出错，需要忽略跳过这种情况
+            if markdown is None:
+                continue
+                
             logging.info(
                 "[%s] Export chapter %s to %s"
                 % (self.__class__.__name__, chapter["title"], file_path)
