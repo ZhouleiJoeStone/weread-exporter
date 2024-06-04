@@ -397,7 +397,11 @@ class WeReadWebPage(object):
                 break
             await asyncio.sleep(1)
         else:
-            raise RuntimeError("Wait for creating markdown timeout")
+            # raise RuntimeError("Wait for creating markdown timeout")
+            # 有些书籍的文前页可能只包含图片，会导致出错，需要忽略跳过这种情况
+            print("Wait for creating markdown timeout")
+            return None
+        
         script = "canvasContextHandler.data.markdown;"
         result = await self._page.evaluate(script)
         if not result:
